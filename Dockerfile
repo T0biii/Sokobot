@@ -1,6 +1,8 @@
 FROM openjdk:8
 
-RUN git clone https://github.com/T0biii/Sokobot
+ARG gitrepo
+
+RUN git clone $gitrepo
 WORKDIR /Sokobot
 RUN chmod +x gradlew && ./gradlew build
 RUN mv build/libs/Sokobot-1.1-all.jar .

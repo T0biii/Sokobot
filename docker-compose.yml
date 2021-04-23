@@ -1,7 +1,10 @@
 version: "3.4"
 services:
   sokobot:
-    build:  .
+    build:
+      context: .
+      args:
+        gitrepo: https://github.com/T0biii/Sokobot
     volumes:
       - ${PWD}/token.txt:/Sokobot/token.txt
     restart: always
