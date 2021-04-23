@@ -24,3 +24,6 @@ gradle-app.setting
 .settings/
 .project
 .classpath
+
+#Discord Token
+token.txt
