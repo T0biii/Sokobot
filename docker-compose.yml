@@ -6,6 +6,7 @@ services:
       args:
         gitrepo: https://github.com/T0biii/Sokobot
         version: 1.1
+        branch: master
     volumes:
       - ${PWD}/token.txt:/Sokobot/token.txt
     restart: always
