@@ -5,8 +5,8 @@ ARG version
 ARG branch
 
 RUN git clone $gitrepo 
-RUN git checkout $branch
 WORKDIR /Sokobot
+RUN git checkout $branch
 RUN chmod +x gradlew && ./gradlew build
 RUN mv build/libs/Sokobot-$version-all.jar .
 ENTRYPOINT  java -jar Sokobot-$version-all.jar
