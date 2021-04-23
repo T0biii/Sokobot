@@ -3,5 +3,5 @@ services:
   sokobot:
     build:  .
     volumes:
-      - ./token.txt:/token.txt
+      - ${PWD}/token.txt:/Sokobot/token.txt
     restart: always
