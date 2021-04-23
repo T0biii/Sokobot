@@ -61,7 +61,6 @@ public class Bot {
                 s.close();
             }
             token = new String(Files.readAllBytes(tokenFile.toPath()));
-            //token = Base64.encodeToString(Files.readAllBytes(tokenFile.toPath()), Base64.NO_WRAP);
             token = token.trim();
         } catch (Exception ex) {
             ex.printStackTrace();
