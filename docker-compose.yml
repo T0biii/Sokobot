@@ -1,0 +1,7 @@
+version: "3.4"
+services:
+  sokobot:
+    build:  .
+    volumes:
+      - ./token.txt:/token.txt
+    restart: always

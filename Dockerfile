@@ -1,5 +1,7 @@
 FROM openjdk:8
 
-RUN wget https://github.com/T0biii/Sokobot/raw/master/Versions/Sokobot-1.2-all.jar
-COPY token.txt .
-ENTRYPOINT  java -jar Sokobot-1.2-all.jar
+RUN git clone https://github.com/T0biii/Sokobot
+WORKDIR /Sokobot
+RUN chmod +x gradlew && ./gradlew build
+RUN mv build/libs/Sokobot-1.1-all.jar .
+ENTRYPOINT  java -jar Sokobot-1.1-all.jar
