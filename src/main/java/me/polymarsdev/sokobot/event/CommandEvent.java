@@ -2,9 +2,9 @@ package me.polymarsdev.sokobot.event;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -12,10 +12,10 @@ import java.util.function.Consumer;
 public class CommandEvent {
     private static final int MAX_MESSAGES = 2;
 
-    private final GuildMessageReceivedEvent event;
+    private final MessageReceivedEvent event;
     private String[] args;
 
-    public CommandEvent(GuildMessageReceivedEvent event, String[] args) {
+    public CommandEvent(MessageReceivedEvent event, String[] args) {
         this.event = event;
         this.args = args;
     }
@@ -24,12 +24,13 @@ public class CommandEvent {
         return args;
     }
 
-    public GuildMessageReceivedEvent getEvent() {
+    public MessageReceivedEvent getEvent() {
         return event;
     }
 
     public List<Member> getMentionedMembers() {
-        List<Member> mentionedMembers = new ArrayList<>(event.getMessage().getMentionedMembers());
+
+        List<Member> mentionedMembers = new ArrayList<>(event.getMessage().getMentions().getMembers());
         if (event.getMessage().getContentRaw().startsWith("<@!" + event.getJDA().getSelfUser().getId() + ">"))
             mentionedMembers.remove(0);
         return mentionedMembers;
@@ -48,47 +49,20 @@ public class CommandEvent {
     }
 
     public void reply(MessageEmbed embed) {
-        event.getChannel().sendMessage(embed).queue();
+        event.getChannel().sendMessage((CharSequence) embed).queue();
     }
 
-    public void reply(MessageEmbed embed, Consumer<Message> success) {
-        event.getChannel().sendMessage(embed).queue(success);
-    }
 
-    public void reply(MessageEmbed embed, Consumer<Message> success, Consumer<Throwable> failure) {
-        event.getChannel().sendMessage(embed).queue(success, failure);
-    }
 
-    public void reply(Message message) {
-        event.getChannel().sendMessage(message).queue();
-    }
 
-    public void reply(Message message, Consumer<Message> success) {
-        event.getChannel().sendMessage(message).queue(success);
-    }
-
-    public void reply(Message message, Consumer<Message> success, Consumer<Throwable> failure) {
-        event.getChannel().sendMessage(message).queue(success, failure);
-    }
-
-    public void reply(File file, String filename) {
-        event.getChannel().sendFile(file, filename).queue();
-    }
-
-    public void reply(String message, File file, String filename) {
-        String msg = message == null ? null : splitMessage(message).get(0);
-        if (msg == null) event.getChannel().sendFile(file, filename).queue();
-        else event.getChannel().sendMessage(msg).addFile(file, filename).queue();
-    }
-
-    private void sendMessage(MessageChannel chan, String message) {
+    private void sendMessage(MessageChannelUnion chan, String message) {
         ArrayList<String> messages = splitMessage(message);
         for (int i = 0; i < MAX_MESSAGES && i < messages.size(); i++) {
             chan.sendMessage(messages.get(i)).queue();
         }
     }
 
-    private void sendMessage(MessageChannel chan, String message, Consumer<Message> success) {
+    private void sendMessage(MessageChannelUnion chan, String message, Consumer<Message> success) {
         ArrayList<String> messages = splitMessage(message);
         for (int i = 0; i < MAX_MESSAGES && i < messages.size(); i++) {
             if (i + 1 == MAX_MESSAGES || i + 1 == messages.size()) {
@@ -99,7 +73,7 @@ public class CommandEvent {
         }
     }
 
-    private void sendMessage(MessageChannel chan, String message, Consumer<Message> success,
+    private void sendMessage(MessageChannelUnion chan, String message, Consumer<Message> success,
                              Consumer<Throwable> failure) {
         ArrayList<String> messages = splitMessage(message);
         for (int i = 0; i < MAX_MESSAGES && i < messages.size(); i++) {
@@ -153,7 +127,7 @@ public class CommandEvent {
         return event.getMessage();
     }
 
-    public TextChannel getTextChannel() {
+    public MessageChannelUnion getTextChannel() {
         return event.getChannel();
     }
 }

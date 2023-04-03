@@ -5,8 +5,9 @@ import me.polymarsdev.sokobot.Game;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.util.HashMap;
 import java.util.Timer;
@@ -32,19 +33,19 @@ public class GameUtil {
         games.remove(userId);
     }
 
-    public static void sendGameEmbed(MessageChannel channel, String level, String game, User user) {
+    public static void sendGameEmbed(MessageChannelUnion channel, String level, String game, User user) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("Sokobot | Level " + level);
         embed.setDescription(game);
         embed.addField("Enter direction (``up``, ``down``, ``left``, ``right``/``wasd``), ``r`` to reset or ``mr`` to "
                                + "recreate the map", "", false);
         embed.addField("Player", user.getAsMention(), false);
-        channel.sendMessage(embed.build()).queue(message -> {
-            message.addReaction("U+2B05").queue();
-            message.addReaction("U+27A1").queue();
-            message.addReaction("U+2B06").queue();
-            message.addReaction("U+2B07").queue();
-            message.addReaction("U+1F504").queue();
+        channel.sendMessage((CharSequence) embed.build()).queue(message -> {
+            message.addReaction(Emoji.fromUnicode("U+2B05")).queue();
+            message.addReaction(Emoji.fromUnicode("U+27A1")).queue();
+            message.addReaction(Emoji.fromUnicode("U+2B06")).queue();
+            message.addReaction(Emoji.fromUnicode("U+2B07")).queue();
+            message.addReaction(Emoji.fromUnicode("U+1F504")).queue();
             Game theGame = GameUtil.getGame(user.getIdLong());
             theGame.setGameMessage(message);
         });
@@ -57,7 +58,7 @@ public class GameUtil {
         embed.addField("Enter direction (``up``, ``down``, ``left``, ``right``/``wasd``), ``r`` to reset or ``mr`` to "
                                + "recreate the map", "", false);
         embed.addField("Player", user.getAsMention(), false);
-        message.editMessage(embed.build()).queue();
+        message.editMessage((CharSequence) embed.build()).queue();
     }
 
     public static void sendWinEmbed(Guild guild, Message message, String level) {
@@ -67,7 +68,7 @@ public class GameUtil {
                 "Type ``" + Bot.getPrefix(guild) + "continue`` to continue to Level " + level + " or ``" + Bot
                         .getPrefix(guild) + "stop`` to quit ");
         embed.setFooter("You can also press any reaction to continue.");
-        message.editMessage(embed.build()).queue();
+        message.editMessage((CharSequence) embed.build()).queue();
     }
 
     public static void runGameTimer() {

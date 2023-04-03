@@ -6,10 +6,10 @@ import me.polymarsdev.sokobot.util.GameUtil;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageReaction;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class GameListener extends ListenerAdapter {
@@ -20,15 +20,15 @@ public class GameListener extends ListenerAdapter {
         Bot.removePrefix(guild.getIdLong());
     }
 
-    @Override
-    public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event) {
+
+    public void onGuildMessageReactionAdd(MessageReactionAddEvent event) {
         User user = event.getUser();
         if (user.isBot()) {
             return;
         }
         Guild guild = event.getGuild();
         MessageReaction reaction = event.getReaction();
-        TextChannel channel = event.getChannel();
+        MessageChannelUnion channel = event.getChannel();
         channel.retrieveMessageById(event.getMessageId()).queue(message -> {
             if (message.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
                 Game game;
@@ -38,7 +38,7 @@ public class GameListener extends ListenerAdapter {
                 } else game = GameUtil.getGame(user.getIdLong());
                 boolean reactionCommand = true;
                 String userInput = "";
-                switch (event.getReactionEmote().toString()) {
+                switch (event.getReaction().toString()) {
                     case "RE:U+2b05":
                         userInput = "left";
                         break;
@@ -61,8 +61,8 @@ public class GameListener extends ListenerAdapter {
                 Bot.debug("Executing reaction input: " + userInput);
                 if (reactionCommand) {
                     game.run(guild, channel, userInput);
-                } else Bot.debug("Received invalid reaction command: " + event.getReactionEmote().getName());
-                if (guild.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
+                } else Bot.debug("Received invalid reaction command: " + event.getReaction());
+                if (guild.getSelfMember().hasPermission(channel.asGuildMessageChannel(), Permission.MESSAGE_MANAGE))
                     reaction.removeReaction(user).queue();
             }
         });

@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
@@ -78,15 +79,25 @@ public class Bot {
             }
         }
         List<GatewayIntent> intents = new ArrayList<>(
-                Arrays.asList(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_EMOJIS,
-                              GatewayIntent.GUILD_MESSAGE_REACTIONS));
+                Arrays.asList(GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_EMOJIS_AND_STICKERS,
+                              GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.MESSAGE_CONTENT));
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.create(token, intents);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.playing("@Sokobot for info!"));
         builder.addEventListeners(new GameListener(), new CommandListener());
         builder.disableCache(
                 CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY, CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
+
         shardManager = builder.build();
+
+        //List<Guild> guilds = shardManager.getGuilds();
+        List<JDA> jdas = shardManager.getShards();
+
+        jdas.forEach(jda -> jda.updateCommands().addCommands(
+                Commands.slash("hello", "Says hello")
+        ));
+
+
         GameUtil.runGameTimer();
         Thread consoleThread = new Thread(() -> {
             Scanner s = new Scanner(System.in);

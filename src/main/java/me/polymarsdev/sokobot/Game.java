@@ -3,6 +3,8 @@ package me.polymarsdev.sokobot;
 import me.polymarsdev.sokobot.objects.Grid;
 import me.polymarsdev.sokobot.util.GameUtil;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.requests.RestAction;
 
 import java.util.concurrent.TimeUnit;
@@ -34,7 +36,7 @@ public class Game {
         channelID = gameMessage.getChannel().getIdLong();
     }
 
-    public void newGame(MessageChannel channel) {
+    public void newGame(MessageChannelUnion channel) {
         if (!gameActive) {
             width = 9;
             height = 6;
@@ -60,7 +62,7 @@ public class Game {
         }
     }
 
-    public void run(Guild guild, TextChannel channel, String userInput) {
+    public void run(Guild guild, MessageChannelUnion channel, String userInput) {
         if (userInput.equals("stop") && gameActive) {
             stop();
             channel.sendMessage("Thanks for playing, " + user.getAsMention() + "!")

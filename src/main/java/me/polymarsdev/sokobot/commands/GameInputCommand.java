@@ -8,8 +8,8 @@ import me.polymarsdev.sokobot.event.CommandEvent;
 import me.polymarsdev.sokobot.util.GameUtil;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 
 public class GameInputCommand extends Command {
 
@@ -39,10 +39,10 @@ public class GameInputCommand extends Command {
             }
         }
         Guild guild = event.getGuild();
-        TextChannel channel = event.getTextChannel();
+        MessageChannelUnion channel = event.getTextChannel();
         game.run(event.getGuild(), channel, userInput);
         if (userInput.equals("stop")) GameUtil.removeGame(user.getIdLong());
-        if (game.gameActive && guild.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
+        if (game.gameActive && guild.getSelfMember().hasPermission(channel.asGuildMessageChannel(), Permission.MESSAGE_MANAGE))
             event.getMessage().delete().queue();
     }
 }

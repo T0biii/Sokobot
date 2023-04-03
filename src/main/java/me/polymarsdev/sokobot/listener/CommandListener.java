@@ -7,8 +7,14 @@ import me.polymarsdev.sokobot.commands.PrefixCommand;
 import me.polymarsdev.sokobot.entity.Command;
 import me.polymarsdev.sokobot.event.CommandEvent;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 import java.util.*;
@@ -29,10 +35,21 @@ public class CommandListener extends ListenerAdapter {
 
 
     @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
+        if (event.getName().equals("hello")) {
+            long time = System.currentTimeMillis();
+            event.reply("Pong!").setEphemeral(true) // reply or acknowledge
+                    .flatMap(v ->
+                            event.getHook().editOriginalFormat("Pong: %d ms", System.currentTimeMillis() - time) // then edit original
+                    ).queue(); // Queue both reply and edit
+        }
+    }
+
+
+    public void onGuildMessageReceived(MessageReceivedEvent event) {
         User user = event.getAuthor();
         Message message = event.getMessage();
-        TextChannel channel = event.getChannel();
+        TextChannel channel = event.getChannel().asTextChannel();
         Guild guild = event.getGuild();
         String msgRaw = message.getContentRaw();
         String[] args = msgRaw.split("\\s+");
@@ -77,7 +94,7 @@ public class CommandListener extends ListenerAdapter {
 
     private static final Collection<Permission> requiredPermissions = Arrays
             .asList(Permission.MESSAGE_ADD_REACTION, Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_MANAGE,
-                    Permission.MESSAGE_WRITE);
+                    Permission.MESSAGE_SEND);
 
     private boolean hasPermissions(Guild guild, TextChannel channel) {
         Member self = guild.getSelfMember();
