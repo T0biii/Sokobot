@@ -6,6 +6,7 @@ import me.polymarsdev.sokobot.commands.InfoCommand;
 import me.polymarsdev.sokobot.commands.PrefixCommand;
 import me.polymarsdev.sokobot.entity.Command;
 import me.polymarsdev.sokobot.event.CommandEvent;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -15,7 +16,9 @@ import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.session.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 
 import java.util.*;
 
@@ -33,6 +36,17 @@ public class CommandListener extends ListenerAdapter {
         System.out.println("[INFO] Loaded " + commands.size() + " commands");
     }
 
+
+    @Override
+    public void onReady(ReadyEvent event){
+        System.out.println("Total:" +event.getGuildTotalCount() + " Available: " + event.getGuildAvailableCount() +" Unavailable: " + event.getGuildUnavailableCount());
+
+        JDA jda = event.getJDA();
+        jda.updateCommands().addCommands(
+                Commands.slash("hello", "Says hello")
+        );
+
+    }
 
     @Override
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {

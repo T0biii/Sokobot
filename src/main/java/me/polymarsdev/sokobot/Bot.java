@@ -5,6 +5,7 @@ import me.polymarsdev.sokobot.listener.CommandListener;
 import me.polymarsdev.sokobot.listener.GameListener;
 import me.polymarsdev.sokobot.util.GameUtil;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
@@ -90,12 +91,9 @@ public class Bot {
 
         shardManager = builder.build();
 
-        //List<Guild> guilds = shardManager.getGuilds();
-        List<JDA> jdas = shardManager.getShards();
 
-        jdas.forEach(jda -> jda.updateCommands().addCommands(
-                Commands.slash("hello", "Says hello")
-        ));
+
+
 
 
         GameUtil.runGameTimer();
