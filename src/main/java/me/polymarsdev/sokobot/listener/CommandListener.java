@@ -44,7 +44,7 @@ public class CommandListener extends ListenerAdapter {
         JDA jda = event.getJDA();
         jda.updateCommands().addCommands(
                 Commands.slash("hello", "Says hello")
-        );
+        ).queue();
 
     }
 
