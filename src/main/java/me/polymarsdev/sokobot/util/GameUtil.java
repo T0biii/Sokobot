@@ -40,7 +40,7 @@ public class GameUtil {
         embed.addField("Enter direction (``up``, ``down``, ``left``, ``right``/``wasd``), ``r`` to reset or ``mr`` to "
                                + "recreate the map", "", false);
         embed.addField("Player", user.getAsMention(), false);
-        channel.sendMessage((CharSequence) embed.build()).queue(message -> {
+        channel.sendMessageEmbeds(embed.build()).queue(message -> {
             message.addReaction(Emoji.fromUnicode("U+2B05")).queue();
             message.addReaction(Emoji.fromUnicode("U+27A1")).queue();
             message.addReaction(Emoji.fromUnicode("U+2B06")).queue();

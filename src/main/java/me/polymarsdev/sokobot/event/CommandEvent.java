@@ -49,7 +49,7 @@ public class CommandEvent {
     }
 
     public void reply(MessageEmbed embed) {
-        event.getChannel().sendMessage((CharSequence) embed).queue();
+        event.getChannel().sendMessageEmbeds(embed).queue();
     }
 
 
