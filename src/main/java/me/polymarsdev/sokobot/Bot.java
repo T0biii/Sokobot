@@ -87,7 +87,7 @@ public class Bot {
         builder.setActivity(Activity.playing("@Sokobot for info! V2.6.8"));
         builder.addEventListeners(new GameListener(), new CommandListener());
         builder.disableCache(
-                CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY, CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
+                CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY, CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE, CacheFlag.ONLINE_STATUS, CacheFlag.SCHEDULED_EVENTS);
 
         shardManager = builder.build();
 
