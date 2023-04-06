@@ -42,17 +42,17 @@ public class GameListener extends ListenerAdapter {
                 boolean reactionCommand = true;
                 String userInput = "";
 
-                
+
                 UnicodeEmoji unicode = event.getReaction().getEmoji().asUnicode();
-                if (unicode.equals(Emoji.fromUnicode("RE:U+2b05"))) {
+                if (unicode.equals(Emoji.fromUnicode("U+2b05"))) {
                     userInput = "left";
-                } else if (unicode.equals(Emoji.fromUnicode("RE:U+27a1"))) {
+                } else if (unicode.equals(Emoji.fromUnicode("U+27a1"))) {
                     userInput = "right";
-                } else if (unicode.equals(Emoji.fromUnicode("RE:U+2b06"))) {
+                } else if (unicode.equals(Emoji.fromUnicode("U+2b06"))) {
                     userInput = "up";
-                } else if (unicode.equals(Emoji.fromUnicode("RE:U+2b07"))) {
+                } else if (unicode.equals(Emoji.fromUnicode("U+2b07"))) {
                     userInput = "down";
-                } else if (unicode.equals(Emoji.fromUnicode("RE:U+1f504"))) {
+                } else if (unicode.equals(Emoji.fromUnicode("U+1f504"))) {
                     userInput = "r";
                 } else {
                     reactionCommand = false;
