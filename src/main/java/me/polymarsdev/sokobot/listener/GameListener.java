@@ -39,7 +39,8 @@ public class GameListener extends ListenerAdapter {
                 } else game = GameUtil.getGame(user.getIdLong());
                 boolean reactionCommand = true;
                 String userInput = "";
-                switch (event.getReaction().toString()) {
+
+                switch (event.getReaction().getEmoji().toString()) {
                     case "RE:U+2b05":
                         userInput = "left";
                         break;
@@ -62,7 +63,7 @@ public class GameListener extends ListenerAdapter {
                 Bot.debug("Executing reaction input: " + userInput);
                 if (reactionCommand) {
                     game.run(guild, channel, userInput);
-                } else Bot.debug("Received invalid reaction command: " + event.getReaction());
+                } else Bot.debug("Received invalid reaction command: " + event.getReaction().toString());
                 if (guild.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
                     reaction.removeReaction(user).queue();
             }
