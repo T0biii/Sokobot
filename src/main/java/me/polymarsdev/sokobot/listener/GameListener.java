@@ -40,7 +40,12 @@ public class GameListener extends ListenerAdapter {
                 boolean reactionCommand = true;
                 String userInput = "";
 
-                switch (event.getReaction().getEmoji().toString()) {
+                System.out.println(event.getReaction().getEmoji().asUnicode().toString());
+                System.out.println(event.getReaction().getEmoji());
+                System.out.println(event.getReaction().getEmoji().toString());
+
+
+                switch (event.getReaction().getEmoji().asUnicode().toString()) {
                     case "RE:U+2b05":
                         userInput = "left";
                         break;
