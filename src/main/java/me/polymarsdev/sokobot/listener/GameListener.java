@@ -21,7 +21,8 @@ public class GameListener extends ListenerAdapter {
     }
 
 
-    public void onGuildMessageReactionAdd(MessageReactionAddEvent event) {
+    @Override
+    public void onMessageReactionAdd(MessageReactionAddEvent event) {
         User user = event.getUser();
         if (user.isBot()) {
             return;
