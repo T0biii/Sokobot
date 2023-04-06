@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.entities.emoji.UnicodeEmoji;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -40,30 +42,20 @@ public class GameListener extends ListenerAdapter {
                 boolean reactionCommand = true;
                 String userInput = "";
 
-                System.out.println(event.getReaction().getEmoji().asUnicode().toString());
-                System.out.println(event.getReaction().getEmoji());
-                System.out.println(event.getReaction().getEmoji().toString());
-
-
-                switch (event.getReaction().getEmoji().asUnicode().toString()) {
-                    case "RE:U+2b05":
-                        userInput = "left";
-                        break;
-                    case "RE:U+27a1":
-                        userInput = "right";
-                        break;
-                    case "RE:U+2b06":
-                        userInput = "up";
-                        break;
-                    case "RE:U+2b07":
-                        userInput = "down";
-                        break;
-                    case "RE:U+1f504":
-                        userInput = "r";
-                        break;
-                    default:
-                        reactionCommand = false;
-                        break;
+                
+                UnicodeEmoji unicode = event.getReaction().getEmoji().asUnicode();
+                if (unicode.equals(Emoji.fromUnicode("RE:U+2b05"))) {
+                    userInput = "left";
+                } else if (unicode.equals(Emoji.fromUnicode("RE:U+27a1"))) {
+                    userInput = "right";
+                } else if (unicode.equals(Emoji.fromUnicode("RE:U+2b06"))) {
+                    userInput = "up";
+                } else if (unicode.equals(Emoji.fromUnicode("RE:U+2b07"))) {
+                    userInput = "down";
+                } else if (unicode.equals(Emoji.fromUnicode("RE:U+1f504"))) {
+                    userInput = "r";
+                } else {
+                    reactionCommand = false;
                 }
                 Bot.debug("Executing reaction input: " + userInput);
                 if (reactionCommand) {

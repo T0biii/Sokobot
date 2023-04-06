@@ -84,7 +84,7 @@ public class Bot {
                               GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.MESSAGE_CONTENT));
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.create(token, intents);
         builder.setStatus(OnlineStatus.ONLINE);
-        builder.setActivity(Activity.playing("@Sokobot for info! V2.6.5"));
+        builder.setActivity(Activity.playing("@Sokobot for info! V2.6.6"));
         builder.addEventListeners(new GameListener(), new CommandListener());
         builder.disableCache(
                 CacheFlag.CLIENT_STATUS, CacheFlag.ACTIVITY, CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE);
