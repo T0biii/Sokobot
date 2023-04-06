@@ -40,7 +40,7 @@ public class GameInputCommand extends Command {
         }
         Guild guild = event.getGuild();
         MessageChannelUnion channel = event.getTextChannel();
-        game.run(event.getGuild(), channel, userInput);
+        game.run(event.getGuild(), channel.asTextChannel(), userInput);
         if (userInput.equals("stop")) GameUtil.removeGame(user.getIdLong());
         if (game.gameActive && guild.getSelfMember().hasPermission(channel.asGuildMessageChannel(), Permission.MESSAGE_MANAGE))
             event.getMessage().delete().queue();
