@@ -36,7 +36,7 @@ public class Game {
         channelID = gameMessage.getChannel().getIdLong();
     }
 
-    public void newGame(MessageChannelUnion channel) {
+    public void newGame(TextChannel channel) {
         if (!gameActive) {
             width = 9;
             height = 6;
@@ -62,7 +62,7 @@ public class Game {
         }
     }
 
-    public void run(Guild guild, MessageChannelUnion channel, String userInput) {
+    public void run(Guild guild, TextChannel channel, String userInput) {
         if (userInput.equals("stop") && gameActive) {
             stop();
             channel.sendMessage("Thanks for playing, " + user.getAsMention() + "!")

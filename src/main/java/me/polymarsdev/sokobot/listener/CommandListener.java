@@ -59,8 +59,8 @@ public class CommandListener extends ListenerAdapter {
         }
     }
 
-
-    public void onGuildMessageReceived(MessageReceivedEvent event) {
+    @Override
+    public void onMessageReceived(MessageReceivedEvent event) {
         User user = event.getAuthor();
         Message message = event.getMessage();
         TextChannel channel = event.getChannel().asTextChannel();

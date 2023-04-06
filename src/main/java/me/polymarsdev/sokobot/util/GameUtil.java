@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 
 import java.util.HashMap;
@@ -33,7 +33,7 @@ public class GameUtil {
         games.remove(userId);
     }
 
-    public static void sendGameEmbed(MessageChannelUnion channel, String level, String game, User user) {
+    public static void sendGameEmbed(TextChannel channel, String level, String game, User user) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle("Sokobot | Level " + level);
         embed.setDescription(game);

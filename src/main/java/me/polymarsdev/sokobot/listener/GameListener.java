@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -28,7 +28,7 @@ public class GameListener extends ListenerAdapter {
         }
         Guild guild = event.getGuild();
         MessageReaction reaction = event.getReaction();
-        MessageChannelUnion channel = event.getChannel();
+        TextChannel channel = event.getChannel().asTextChannel();
         channel.retrieveMessageById(event.getMessageId()).queue(message -> {
             if (message.getAuthor().getId().equals(event.getJDA().getSelfUser().getId())) {
                 Game game;
@@ -62,7 +62,7 @@ public class GameListener extends ListenerAdapter {
                 if (reactionCommand) {
                     game.run(guild, channel, userInput);
                 } else Bot.debug("Received invalid reaction command: " + event.getReaction());
-                if (guild.getSelfMember().hasPermission(channel.asGuildMessageChannel(), Permission.MESSAGE_MANAGE))
+                if (guild.getSelfMember().hasPermission(channel, Permission.MESSAGE_MANAGE))
                     reaction.removeReaction(user).queue();
             }
         });

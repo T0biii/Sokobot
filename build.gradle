@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.polymars'
-version '2.5'
+version '2.6'
 sourceSets.main.java.srcDirs = ['src/main/java']
 mainClassName = "me.polymarsdev.sokobot.Bot"
 sourceCompatibility = 1.8
