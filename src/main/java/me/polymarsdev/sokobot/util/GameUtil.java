@@ -58,7 +58,7 @@ public class GameUtil {
         embed.addField("Enter direction (``up``, ``down``, ``left``, ``right``/``wasd``), ``r`` to reset or ``mr`` to "
                                + "recreate the map", "", false);
         embed.addField("Player", user.getAsMention(), false);
-        message.editMessage((CharSequence) embed.build()).queue();
+        message.editMessageEmbeds(embed.build()).queue();
     }
 
     public static void sendWinEmbed(Guild guild, Message message, String level) {

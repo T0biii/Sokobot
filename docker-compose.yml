@@ -5,7 +5,7 @@ services:
       context: .
       args:
         gitrepo: https://github.com/T0biii/Sokobot
-        version: 2.6.7
+        version: 2.6.8
         branch: master
     volumes:
       - ${PWD}/token.txt:/Sokobot/token.txt
