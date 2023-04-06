@@ -68,7 +68,7 @@ public class GameUtil {
                 "Type ``" + Bot.getPrefix(guild) + "continue`` to continue to Level " + level + " or ``" + Bot
                         .getPrefix(guild) + "stop`` to quit ");
         embed.setFooter("You can also press any reaction to continue.");
-        message.editMessage((CharSequence) embed.build()).queue();
+        message.editMessageEmbeds(embed.build()).queue();
     }
 
     public static void runGameTimer() {
