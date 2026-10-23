@@ -1,0 +1,21 @@
+services:
+  sokobot:
+    image: ghcr.io/t0biii/sokobot:latest
+    pull_policy: always
+    environment:
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
+#    ports:
+#      - "3001:3001"
+    restart: always
+
+  # Feste URL: Named Tunnel mit Token aus dem Cloudflare Zero Trust Dashboard.
+  # Wird zusammen mit dem Spiel gestartet: docker compose up -d
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${TUNNEL_TOKEN}
+    depends_on:
+      - sokobot
+    restart: always

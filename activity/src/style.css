@@ -1,0 +1,31 @@
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #313338;
+  color: #f2f3f5;
+  font-family: system-ui, sans-serif;
+  user-select: none;
+}
+#app { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 12px; }
+header { display: flex; justify-content: space-between; align-items: baseline; width: 100%; max-width: 640px; }
+h1 { margin: 0; font-size: 1.3rem; }
+#status { display: flex; gap: 12px; font-weight: 600; }
+#player { color: #b5bac1; }
+#board-wrap { position: relative; width: 100%; max-width: 640px; display: flex; justify-content: center; }
+canvas { border-radius: 6px; background: #1e1f22; }
+#win {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; gap: 12px; background: rgba(0, 0, 0, 0.7); border-radius: 6px;
+}
+#win[hidden] { display: none; }
+#win h2 { margin: 0; }
+button {
+  background: #5865f2; color: #fff; border: 0; border-radius: 6px; padding: 10px 14px;
+  font-size: 1rem; cursor: pointer;
+}
+button:hover { background: #4752c4; }
+#controls { display: grid; grid-template-columns: repeat(4, 56px); gap: 8px; }
+#controls .wide { grid-column: span 2; font-size: 0.85rem; background: #4e5058; }
+#controls .wide:hover { background: #6d6f78; }
+#hint { margin: 0; color: #b5bac1; font-size: 0.85rem; text-align: center; max-width: 480px; }
