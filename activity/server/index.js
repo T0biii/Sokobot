@@ -1,8 +1,9 @@
 import express from 'express';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { startPresence } from './presence.js';
 
-const { DISCORD_CLIENT_ID: clientId, DISCORD_CLIENT_SECRET: clientSecret, PORT = 3001 } = process.env;
+const { DISCORD_CLIENT_ID: clientId, DISCORD_CLIENT_SECRET: clientSecret, DISCORD_BOT_TOKEN: botToken, PORT = 3001 } = process.env;
 if (!clientId || !clientSecret) {
   console.error('[ERROR] DISCORD_CLIENT_ID und DISCORD_CLIENT_SECRET müssen gesetzt sein (siehe .env.example).');
   process.exit(1);
@@ -38,3 +39,6 @@ const dist = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist
 app.use(express.static(dist));
 
 app.listen(PORT, () => console.log(`[INFO] Sokobot Activity läuft auf Port ${PORT}`));
+
+if (botToken) startPresence(botToken);
+else console.warn('[WARN] DISCORD_BOT_TOKEN fehlt, der Bot wird nicht als online angezeigt.');

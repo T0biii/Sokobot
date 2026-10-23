@@ -12,7 +12,7 @@ Die Level werden zufällig generiert und werden mit jedem Level größer und sch
 ## Einrichtung
 1. Im [Developer Portal](https://discord.com/developers/applications) eine Application anlegen und unter **Activities → Settings** *Enable Activities* aktivieren.
 2. Unter **OAuth2** die Client-ID und das Client-Secret kopieren.
-3. `activity/.env.example` nach `activity/.env` kopieren und beide Werte eintragen.
+3. `activity/.env.example` nach `activity/.env` kopieren und beide Werte eintragen. Für die Online-Anzeige des Bots zusätzlich unter **Bot** den Token als `DISCORD_BOT_TOKEN` eintragen.
 4. Lokal starten:
    ```bash
    cd activity
