@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Sokobot</title>
+  </head>
+  <body>
+    <main id="app">
+      <header>
+        <h1>Sokobot</h1>
+        <div id="status">
+          <span id="level">Level 1</span>
+          <span id="player"></span>
+        </div>
+      </header>
+      <div id="board-wrap">
+        <canvas id="board"></canvas>
+        <div id="win" hidden>
+          <h2>Geschafft!</h2>
+          <button id="next" type="button">Weiter zu Level <span id="next-level"></span></button>
+        </div>
+      </div>
+      <div id="controls">
+        <button data-move="up" aria-label="Hoch">▲</button>
+        <button data-move="left" aria-label="Links">◀</button>
+        <button data-move="down" aria-label="Runter">▼</button>
+        <button data-move="right" aria-label="Rechts">▶</button>
+        <button data-action="reset" class="wide">Zurücksetzen (R)</button>
+        <button data-action="newmap" class="wide">Neue Karte (N)</button>
+      </div>
+      <p id="hint">Pfeiltasten oder WASD zum Laufen. Kisten auf die ❎ schieben – sie werden dort fest.</p>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

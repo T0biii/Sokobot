@@ -1,43 +1,48 @@
 # Sokobot
 
-Sokobot is a Discord bot written with [JDA](https://github.com/DV8FromTheWorld/JDA) that lets you play [Sokoban](https://en.wikipedia.org/wiki/Sokoban), the classic box-pushing puzzle game.
+Sokobot ist ein [Sokoban](https://en.wikipedia.org/wiki/Sokoban)-Spiel als **Discord Activity**: Es läuft direkt in einem Sprach­kanal (oder DM) statt im Chat.
 
-## Screenshots
-![Level 1](https://cdn.discordapp.com/attachments/670425377503707146/727568442034487316/sokobot_v1.1.gif)
-![Level 2](https://cdn.discordapp.com/attachments/670425377503707146/727567694597193829/sokobot_v1.1_.gif)
+Die Level werden zufällig generiert und werden mit jedem Level größer und schwerer. Kisten, die auf einem ❎ landen, werden zur festen Wand.
 
-## Features
-### Infinite levels
-The maps in Sokobot are randomly generated, increasing in difficulty as you progress.
-### Varied controls
-Sokobot has multiple control options to improve the player's experience, including reactions and wasd commands!
-### Simultaneous games
-Thanks to the power of Java HashMaps™️, multiple users can use the bot at the same time without interfering with one another.
-### Custom prefixes ``New!``
-To prevent Sokobot from conflicting with other bots, admins can choose any single-character prefix to preface Sokobot's commands.
+## Steuerung
+- Pfeiltasten oder `WASD` zum Laufen, oder die Buttons auf dem Bildschirm (auch mobil)
+- `R` setzt das Level zurück, `N` erzeugt eine neue Karte
+- `Enter` / `Leertaste` geht nach einem Sieg zum nächsten Level
 
-## Commands
-### User
-- ``!play`` can be used to start a game if you are not currently in one.
-- ``!stop`` can be used to stop your active game at any time.
-- ``!info`` provides some useful details about the bot and rules of the game.
-### Admin ``New!``
-- ``!prefix [character]`` can be used to change the prefix the bot responds to in the current server. 
+## Einrichtung
+1. Im [Developer Portal](https://discord.com/developers/applications) eine Application anlegen und unter **Activities → Settings** *Enable Activities* aktivieren.
+2. Unter **OAuth2** die Client-ID und das Client-Secret kopieren.
+3. `activity/.env.example` nach `activity/.env` kopieren und beide Werte eintragen.
+4. Lokal starten:
+   ```bash
+   cd activity
+   npm install
+   npm run dev
+   ```
+5. Den Dev-Server per Tunnel (z. B. `cloudflared tunnel --url http://localhost:5173`) öffentlich machen und die Tunnel-URL im Developer Portal unter **Activities → URL Mappings** als Root Mapping (`/`) eintragen.
+6. In Discord in einem Sprachkanal auf das Raketen-Symbol (Aktivitäten) klicken und Sokobot starten.
 
-## Usage
-### Public host ``New!``
-Sokobot is available on top.gg and can be added to your server [in one click](https://top.gg/bot/713635251703906336/)! 
-### Self-hosting
-Grab the [latest .jar](https://github.com/PolyMarsDev/Sokobot/releases) or [build it yourself](#compiling). Then, create a Discord Bot Application [here](https://discord.com/developers/applications/) and paste the bot token into ``token.txt``. Then, ensure the two files are in the same directory and run the .jar file.
-Please note, this bot differs a bit from the public bot. For example, there is no voting rewards (custom emotes are always unlocked), no leaderboard, no progress saving, etc.
+Ohne Discord lässt sich das Spiel auch direkt unter `http://localhost:5173` testen.
 
+## Produktion (Docker)
+Bei jedem Push auf `main` baut GitHub Actions das Image und veröffentlicht es als `ghcr.io/t0biii/sokobot` (GitHub Packages). `.env.example` nach `.env` kopieren, ausfüllen und starten:
+```bash
+docker compose up -d
+```
+Der Container lauscht auf Port 3001, der in `compose.yml` standardmäßig nicht veröffentlicht ist (Zeilen `ports` einkommentieren, falls nötig). Normalerweise erreichst du ihn über den Cloudflare Tunnel (siehe unten); die öffentliche URL kommt als URL Mapping ins Developer Portal.
 
+Das Paket ist nach dem ersten Build privat. Entweder unter *Packages → Package settings* auf öffentlich stellen oder vorher `docker login ghcr.io` mit einem Personal Access Token (`read:packages`) ausführen.
 
-## Compiling
+**Cloudflare Tunnel** startet automatisch mit (`compose.yml`). Dafür den Token aus Zero Trust → Networks → Tunnels als `TUNNEL_TOKEN` in `.env` eintragen und im Tunnel den Public Hostname auf `http://sokobot:3001` zeigen lassen.
 
-Install [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [Gradle](https://gradle.org/).
-In the root folder of the project, execute ``gradlew shadowJar``.
-The compiled .jar file will be located in ``build/libs``.
+**Lokal bauen statt Image ziehen:**
+```bash
+docker compose -f compose.yml -f compose.build.yml up -d --build
+```
+## Tests
+```bash
+cd activity && npm test
+```
 
 ## Contributing
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Feel free to create a fork and use the code for any noncommercial purposes.
+Pull Requests sind willkommen. Bei größeren Änderungen bitte zuerst ein Issue öffnen.

@@ -1,12 +1,16 @@
-FROM openjdk:8
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY activity/package*.json ./
+RUN npm install
+COPY activity/ ./
+RUN npm run build
 
-ARG gitrepo
-ARG version
-ARG branch
-
-RUN git clone $gitrepo 
-WORKDIR /Sokobot
-RUN git checkout $branch
-RUN chmod +x gradlew && ./gradlew build
-RUN mv build/libs/Sokobot-$version-all.jar .
-ENTRYPOINT  java -jar Sokobot-$version-all.jar
+FROM node:22-alpine
+WORKDIR /app
+COPY activity/package*.json ./
+RUN npm install --omit=dev
+COPY --from=build /app/dist ./dist
+COPY activity/server ./server
+ENV PORT=3001
+EXPOSE 3001
+CMD ["node", "server/index.js"]

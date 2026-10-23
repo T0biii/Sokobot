@@ -1,0 +1,4 @@
+activity/node_modules
+activity/dist
+activity/.env
+.git

@@ -1,0 +1,6 @@
+# Override zum lokalen Bauen statt Image aus der GitHub Container Registry:
+# docker compose -f compose.yml -f compose.build.yml up -d --build
+services:
+  sokobot:
+    build: .
+    pull_policy: never
