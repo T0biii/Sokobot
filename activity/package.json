@@ -12,7 +12,7 @@
   "dependencies": {
     "@discord/embedded-app-sdk": "^1.4.0",
     "discord.js": "^14.16.0",
-    "express": "^4.19.2"
+    "express": "^5.3.0"
   },
   "devDependencies": {
     "concurrently": "^9.0.0",
